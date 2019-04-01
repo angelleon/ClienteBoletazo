@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ThreadClient extends Thread{
     private static final Logger LOG = LogManager.getLogger(ThreadClient.class);
-    static final String HOST = "<ipServer>";
+    static final String HOST = "localhost";//"<ipServer>";
     static final int PORT= 2000; //<portShared>
     private static DataOutputStream msgOut;
     private int client;
@@ -27,8 +27,8 @@ public class ThreadClient extends Thread{
         this.step= step;
     }
     /**
-     * Open the communication with server
-     * @return outStream, to chat with server x'D
+     * Open the communication to client
+     * @return outStream send menssage 
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -38,11 +38,12 @@ public class ThreadClient extends Thread{
         return new DataOutputStream(outStream);     
     }
     /**
-     * Listen to server's response
+     * Listen to client response
      * @return a string with information for the server
      * @throws IOException if something bad happens ...
      */
     public String reply() throws IOException{
+       
         cltSocket = new Socket(HOST,PORT);
         InputStream inStream= cltSocket.getInputStream();
         DataInputStream dataIn = new DataInputStream(inStream);
@@ -100,6 +101,7 @@ public class ThreadClient extends Thread{
             msgOut = newMessage();
             msgOut.writeUTF("0,null");
             cltSocket.close();
+            LOG.debug("enviado :  0,null");
             return true;
         }catch(UnknownHostException e) {
             LOG.error("(0) without conection to host "+HOST+" on port "+PORT);
@@ -116,6 +118,7 @@ public class ThreadClient extends Thread{
         // “2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null”
         msgOut.writeUTF("2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
         cltSocket.close();
+        LOG.debug("enviado :  2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
         return true;
         }catch(UnknownHostException e) {
             LOG.error("(2) without conection to host "+HOST+" on port "+PORT);
@@ -133,6 +136,7 @@ public class ThreadClient extends Thread{
         // “4,1020,1”
         msgOut.writeUTF("4,1020,1");
         cltSocket.close();
+        LOG.debug("4,1020,1");
         return true;
         }catch(UnknownHostException e) {
             LOG.error("(4) without conection to host "+HOST+" on port "+PORT);
@@ -149,6 +153,7 @@ public class ThreadClient extends Thread{
         msgOut = newMessage();
         // “6,1020,1,21”
         msgOut.writeUTF("6,1020,1,21");
+        LOG.debug("6,1020,1,21");
         cltSocket.close();
         return true;
         }catch(UnknownHostException e) {
@@ -166,6 +171,7 @@ public class ThreadClient extends Thread{
             // “8,1020,1,4,23,24,25,26”
             msgOut.writeUTF("8,1020,1,4,23,24,25,26");
             cltSocket.close();
+            LOG.debug("8,1020,1,4,23,24,25,26");
             return true;
             }catch(UnknownHostException e) {
                 LOG.error("(8) without conection to host "+HOST+" on port "+PORT);
@@ -182,6 +188,7 @@ public class ThreadClient extends Thread{
         // “10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro”
         msgOut.writeUTF("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
         cltSocket.close();
+        LOG.debug("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
         return true;
         }catch(UnknownHostException e) {
             LOG.error("(10) without conection to host "+HOST+" on port "+PORT);
@@ -198,6 +205,7 @@ public class ThreadClient extends Thread{
             // “12,1020,juanitoPerez,contrapassword”
             msgOut.writeUTF("12,1020,juanitoPerez,contrapassword");
             cltSocket.close();
+            LOG.debug("12,1020,juanitoPerez,contrapassword");
             return true;
             }catch(UnknownHostException e) {
                 LOG.error("(12) without conection to host "+HOST+" on port "+PORT);
@@ -216,6 +224,8 @@ public class ThreadClient extends Thread{
             // “12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARD”
             msgOut.writeUTF("14,2020,1234-1234-1234-1234,04/22,333,VISA");
             cltSocket.close();
+
+            LOG.debug("14,2020,1234-1234-1234-1234,04/22,333,VISA");
             return true;
             }catch(UnknownHostException e) {
                 LOG.error("(14) without conection to host "+HOST+" on port "+PORT);

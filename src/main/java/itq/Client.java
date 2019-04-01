@@ -8,6 +8,7 @@ public class Client
         //client type 1 (without sigup) but... with all steps
         Thread t_client = new ThreadClient(1,0);
         t_client.start();
+        /*
         //client type 2 ...with sigup!, with all steps
         Thread t_client2 = new ThreadClient(2,0);
         t_client2.start();
@@ -19,7 +20,7 @@ public class Client
         
         Thread tClientStep2 = new ThreadClient(2,step);
         tClientStep2.start();
-       
+       */
     }
 
 }
