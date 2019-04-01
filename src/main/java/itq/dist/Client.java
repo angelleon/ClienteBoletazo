@@ -2,7 +2,6 @@ package itq;
 
 public class Client
 {
-
     public static void main(String[] args) {    
         
         //client type 1 (without sigup) but... with all steps
@@ -22,5 +21,4 @@ public class Client
         tClientStep2.start();
        */
     }
-
 }

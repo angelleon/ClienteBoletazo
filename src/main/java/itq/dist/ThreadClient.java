@@ -16,6 +16,7 @@ public class ThreadClient extends Thread{
     private static final Logger LOG = LogManager.getLogger(ThreadClient.class);
     static final String HOST = "localhost";//"<ipServer>";
     static final int PORT= 2000; //<portShared>
+    
     private static DataOutputStream msgOut;
     private int client;
     private int step;
@@ -115,7 +116,7 @@ public class ThreadClient extends Thread{
     private boolean getEventList() {
      try {
         msgOut = newMessage();
-        // “2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null”
+        // ï¿½2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,nullï¿½
         msgOut.writeUTF("2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
         cltSocket.close();
         LOG.debug("enviado :  2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
@@ -133,7 +134,7 @@ public class ThreadClient extends Thread{
     try {
         
         msgOut = newMessage();
-        // “4,1020,1”
+        // ï¿½4,1020,1ï¿½
         msgOut.writeUTF("4,1020,1");
         cltSocket.close();
         LOG.debug("4,1020,1");
@@ -151,7 +152,7 @@ public class ThreadClient extends Thread{
     try {
         
         msgOut = newMessage();
-        // “6,1020,1,21”
+        // ï¿½6,1020,1,21ï¿½
         msgOut.writeUTF("6,1020,1,21");
         LOG.debug("6,1020,1,21");
         cltSocket.close();
@@ -168,7 +169,7 @@ public class ThreadClient extends Thread{
     private boolean requestReserveTickets() {
      try {
             msgOut = newMessage();
-            // “8,1020,1,4,23,24,25,26”
+            // ï¿½8,1020,1,4,23,24,25,26ï¿½
             msgOut.writeUTF("8,1020,1,4,23,24,25,26");
             cltSocket.close();
             LOG.debug("8,1020,1,4,23,24,25,26");
@@ -185,7 +186,7 @@ public class ThreadClient extends Thread{
     private boolean sigup() {
     try {
         msgOut = newMessage();
-        // “10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro”
+        // ï¿½10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaroï¿½
         msgOut.writeUTF("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
         cltSocket.close();
         LOG.debug("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
@@ -202,7 +203,7 @@ public class ThreadClient extends Thread{
     private boolean loginCheck() {
         try {
             msgOut = newMessage();
-            // “12,1020,juanitoPerez,contrapassword”
+            // ï¿½12,1020,juanitoPerez,contrapasswordï¿½
             msgOut.writeUTF("12,1020,juanitoPerez,contrapassword");
             cltSocket.close();
             LOG.debug("12,1020,juanitoPerez,contrapassword");
@@ -221,7 +222,7 @@ public class ThreadClient extends Thread{
             msgOut = newMessage();
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! se mando la interfaz con #12 en lugar de 14 
             // ahora que houston!?
-            // “12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARD”
+            // ï¿½12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARDï¿½
             msgOut.writeUTF("14,2020,1234-1234-1234-1234,04/22,333,VISA");
             cltSocket.close();
 
