@@ -44,29 +44,37 @@ public class ThreadClient extends Thread{
      */
     public String reply() throws IOException{
        
-        cltSocket = new Socket(HOST,PORT);
+        //cltSocket = new Socket(HOST,PORT);
         InputStream inStream= cltSocket.getInputStream();
         DataInputStream dataIn = new DataInputStream(inStream);
         return dataIn.readUTF().toString();
     }
     public void step(int step) {
         switch(step) {
-        case 0:cStartSession();break;
-        case 1:sStartSession();break;
-        case 2:getEventList();break;
-        case 3:postEventList();break;
-        case 4:getEventInfo();break;
-        case 5:postAvailableDates();break;
-        case 6:getAvailableSeats();break;
-        case 7:postAvailableSeats();break;
-        case 8:requestReserveTickets();break;
-        case 9:ConfirmReserveTickets();break;
-        case 10:sigup();break;
-        case 11:sigupStatus();break;
-        case 12:loginCheck();break;
-        case 13:loginStatus();break;
-        case 14:postPaymentInfo();break;
-        case 15:purchaseCompleted();break;
+        case 0:cStartSession();
+               sStartSession();
+               break;
+        case 2:getEventList();
+               postEventList();
+                break;
+        case 4:getEventInfo();
+               postAvailableDates();
+               break;
+        case 6:getAvailableSeats();
+               postAvailableSeats();
+               break;
+        case 8:requestReserveTickets(); 
+               ConfirmReserveTickets();
+               break;
+        case 10:sigup();
+                sigupStatus();
+                break;
+        case 12:loginCheck();
+                loginStatus();
+                break;
+        case 14:postPaymentInfo();
+                purchaseCompleted();
+                break;
         }
     }
     public void run() {
