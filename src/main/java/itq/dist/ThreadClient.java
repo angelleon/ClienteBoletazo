@@ -21,6 +21,7 @@ public class ThreadClient extends Thread
     private static DataOutputStream msgOut;
     private int client;
     private int step;
+    private int idSession;
     // variables to test
     private Socket cltSocket;
 
@@ -99,11 +100,9 @@ public class ThreadClient extends Thread
         }
     }
 
-    @Override
-    public void run()
-    {
-        if (step != 0)
-        {
+    public void run() {
+        if(step!=0) {
+            idSession = 1020; // porque pues necesita uno!
             step(step);
         }
         else
@@ -154,21 +153,17 @@ public class ThreadClient extends Thread
         }
         return false;
     }
-
-    private boolean getEventList()
-    {
-        try
-        {
-            msgOut = newMessage();
-            // �2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null�
-            msgOut.writeUTF("2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
-            // cltSocket.close();
-            LOG.debug("enviado :  2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
-            return true;
-        }
-        catch (UnknownHostException e)
-        {
-            LOG.error("(2) without conection to host " + HOST + " on port " + PORT);
+    
+    private boolean getEventList() {
+     try {
+        msgOut = newMessage();
+        // �2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null�
+        msgOut.writeUTF("2,"+idSession+",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
+        cltSocket.close();
+        LOG.debug("enviado :  2,"+idSession+",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
+        return true;
+        }catch(UnknownHostException e) {
+            LOG.error("(2) without conection to host "+HOST+" on port "+PORT);
             e.printStackTrace();
 
         }
@@ -178,22 +173,18 @@ public class ThreadClient extends Thread
         }
         return false;
     }
-
-    private boolean getEventInfo()
-    {
-        try
-        {
-
-            msgOut = newMessage();
-            // �4,1020,1�
-            msgOut.writeUTF("4,1020,1");
-            // cltSocket.close();
-            LOG.debug("4,1020,1");
-            return true;
-        }
-        catch (UnknownHostException e)
-        {
-            LOG.error("(4) without conection to host " + HOST + " on port " + PORT);
+    
+    private boolean getEventInfo() {
+    try {
+        
+        msgOut = newMessage();
+        // �4,1020,1�
+        msgOut.writeUTF("4,"+idSession+",1");
+        cltSocket.close();
+        LOG.debug("4,"+idSession+",1");
+        return true;
+        }catch(UnknownHostException e) {
+            LOG.error("(4) without conection to host "+HOST+" on port "+PORT);
             e.printStackTrace();
 
         }
@@ -204,23 +195,18 @@ public class ThreadClient extends Thread
         return false;
     }
 
-    private boolean getAvailableSeats()
-    {
-        try
-        {
-
-            msgOut = newMessage();
-            // �6,1020,1,21�
-            msgOut.writeUTF("6,1020,1,21");
-            LOG.debug("6,1020,1,21");
-            // cltSocket.close();
-            return true;
-        }
-        catch (UnknownHostException e)
-        {
-            LOG.error("(6) without conection to host " + HOST + " on port " + PORT);
+    private boolean getAvailableSeats() {
+    try {
+        
+        msgOut = newMessage();
+        // �6,1020,1,21�
+        msgOut.writeUTF("6,"+idSession+",1,21");
+        LOG.debug("6,"+idSession+",1,21");
+        cltSocket.close();
+        return true;
+        }catch(UnknownHostException e) {
+            LOG.error("(6) without conection to host "+HOST+" on port "+PORT);
             e.printStackTrace();
-
         }
         catch (IOException e)
         {
@@ -235,9 +221,9 @@ public class ThreadClient extends Thread
         {
             msgOut = newMessage();
             // �8,1020,1,4,23,24,25,26�
-            msgOut.writeUTF("8,1020,1,4,23,24,25,26");
-            // cltSocket.close();
-            LOG.debug("8,1020,1,4,23,24,25,26");
+            msgOut.writeUTF("8,"+idSession+",1,4,23,24,25,26");
+            cltSocket.close();
+            LOG.debug("8,"+idSession+",1,4,23,24,25,26");
             return true;
         }
         catch (UnknownHostException e)
@@ -253,20 +239,16 @@ public class ThreadClient extends Thread
         return false;
     }
 
-    private boolean sigup()
-    {
-        try
-        {
-            msgOut = newMessage();
-            // �10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro�
-            msgOut.writeUTF("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
-            // cltSocket.close();
-            LOG.debug("10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
-            return true;
-        }
-        catch (UnknownHostException e)
-        {
-            LOG.error("(10) without conection to host " + HOST + " on port " + PORT);
+    private boolean sigup() {
+    try {
+        msgOut = newMessage();
+        // �10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro�
+        msgOut.writeUTF("10,"+idSession+",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
+        cltSocket.close();
+        LOG.debug("10,"+idSession+",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
+        return true;
+        }catch(UnknownHostException e) {
+            LOG.error("(10) without conection to host "+HOST+" on port "+PORT);
             e.printStackTrace();
 
         }
@@ -283,9 +265,9 @@ public class ThreadClient extends Thread
         {
             msgOut = newMessage();
             // �12,1020,juanitoPerez,contrapassword�
-            msgOut.writeUTF("12,1020,juanitoPerez,contrapassword");
-            // cltSocket.close();
-            LOG.debug("12,1020,juanitoPerez,contrapassword");
+            msgOut.writeUTF("12,"+idSession+",juanitoPerez,contrapassword");
+            cltSocket.close();
+            LOG.debug("12,"+idSession+",juanitoPerez,contrapassword");
             return true;
         }
         catch (UnknownHostException e)
@@ -309,10 +291,9 @@ public class ThreadClient extends Thread
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! se mando la interfaz con #12 en lugar de 14
             // ahora que houston!?
             // �12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARD�
-            msgOut.writeUTF("14,2020,1234-1234-1234-1234,04/22,333,VISA");
-            // cltSocket.close();
-
-            LOG.debug("14,2020,1234-1234-1234-1234,04/22,333,VISA");
+            msgOut.writeUTF("14,"+idSession+",1234-1234-1234-1234,04/22,333,VISA");
+            cltSocket.close();
+            LOG.debug("14,"+idSession+",1234-1234-1234-1234,04/22,333,VISA");
             return true;
         }
         catch (UnknownHostException e)
@@ -331,25 +312,17 @@ public class ThreadClient extends Thread
     /**
      * Server steps , only show the response ... nothing to do
      */
-    private boolean sStartSession()
-    {
-        try
-        {
-            String input = reply();
-            LOG.debug("Response serv: " + input);
-            // to do something...
-            cltSocket.close();
-            return true;
-        }
-        catch (UnknownHostException e)
-        {
-            LOG.error("(1) without conection to host " + HOST + " on port " + PORT);
-            e.printStackTrace();
 
-        }
-        catch (IOException e)
-        {
-            LOG.error("(1) IOException" + e.getMessage());
+    private boolean sStartSession() {
+    try {        
+        String input = reply();
+        LOG.debug("Response serv: "+input);  
+            idSession = getIdSession(input);
+        // to do something...
+        cltSocket.close();
+        return true;
+        }catch(UnknownHostException e) {
+            LOG.error("(1) without conection to host "+HOST+" on port "+PORT);
             e.printStackTrace();
         }
         return false;
@@ -514,5 +487,11 @@ public class ThreadClient extends Thread
             LOG.error("(15) IOException" + e.getMessage());
         }
         return false;
+    }
+    private int getIdSession(String input)
+    {
+        // TODO Auto-generated method stub
+        String[] parts = input.split(",");
+        return Integer.parseInt(parts[0]);
     }
 }
