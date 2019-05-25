@@ -55,7 +55,7 @@ public class ThreadClient extends Thread
     public String reply() throws IOException
     {
 
-        // cltSocket = new Socket(HOST,PORT);
+        // cltSocket = new Socket(HOST, PORT);
         InputStream inStream = cltSocket.getInputStream();
         DataInputStream dataIn = new DataInputStream(inStream);
         return dataIn.readUTF().toString();
@@ -97,6 +97,8 @@ public class ThreadClient extends Thread
             postPaymentInfo();
             purchaseCompleted();
             break;
+        default:
+            break;
         }
     }
 
@@ -123,8 +125,8 @@ public class ThreadClient extends Thread
             if (client == 2)
             {
                 sigup();
+                sigupStatus();
             }
-            sigupStatus();
             loginCheck();
             loginStatus();
             postPaymentInfo();
@@ -164,7 +166,7 @@ public class ThreadClient extends Thread
             msgOut = newMessage();
             // �2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null�
             msgOut.writeUTF("2," + idSession + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("enviado :  2," + idSession + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
             return true;
         }
@@ -189,7 +191,7 @@ public class ThreadClient extends Thread
             msgOut = newMessage();
             // �4,1020,1�
             msgOut.writeUTF("4," + idSession + ",1");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("4," + idSession + ",1");
             return true;
         }
@@ -215,7 +217,7 @@ public class ThreadClient extends Thread
             // �6,1020,1,21�
             msgOut.writeUTF("6," + idSession + ",1,21");
             LOG.debug("6," + idSession + ",1,21");
-            cltSocket.close();
+            // cltSocket.close();
             return true;
         }
         catch (UnknownHostException e)
@@ -235,9 +237,9 @@ public class ThreadClient extends Thread
         try
         {
             msgOut = newMessage();
-            // �8,1020,1,4,23,24,25,26�
+            // 8,1020,1,4,23,24,25,26
             msgOut.writeUTF("8," + idSession + ",1,4,23,24,25,26");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("8," + idSession + ",1,4,23,24,25,26");
             return true;
         }
@@ -261,7 +263,7 @@ public class ThreadClient extends Thread
             msgOut = newMessage();
             // �10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro�
             msgOut.writeUTF("10," + idSession + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("10," + idSession + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
             return true;
         }
@@ -285,7 +287,7 @@ public class ThreadClient extends Thread
             msgOut = newMessage();
             // �12,1020,juanitoPerez,contrapassword�
             msgOut.writeUTF("12," + idSession + ",juanitoPerez,contrapassword");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("12," + idSession + ",juanitoPerez,contrapassword");
             return true;
         }
@@ -311,7 +313,7 @@ public class ThreadClient extends Thread
             // ahora que houston!?
             // �12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARD�
             msgOut.writeUTF("14," + idSession + ",1234-1234-1234-1234,04/22,333,VISA");
-            cltSocket.close();
+            // cltSocket.close();
             LOG.debug("14," + idSession + ",1234-1234-1234-1234,04/22,333,VISA");
             return true;
         }
@@ -338,7 +340,7 @@ public class ThreadClient extends Thread
         {
             String input = reply();
             LOG.debug("Response serv: " + input);
-            idSession = getIdSession(input);
+            setSessionId(getIdSession(input));
             // to do something...
             cltSocket.close();
             return true;
@@ -476,7 +478,7 @@ public class ThreadClient extends Thread
         {
             String input = reply();
             LOG.debug("Response serv: " + input);
-            idSession = getIdSession(input);
+            setSessionId(getIdSession(input));
             // to do something...
             cltSocket.close();
             return true;
@@ -522,5 +524,10 @@ public class ThreadClient extends Thread
         // TODO Auto-generated method stub
         String[] parts = input.split(",");
         return Integer.parseInt(parts[1]);
+    }
+
+    private synchronized void setSessionId(int sessionId)
+    {
+        this.idSession = sessionId;
     }
 }
