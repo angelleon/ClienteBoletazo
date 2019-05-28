@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-//import java.util.Random;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,15 +22,36 @@ public class ThreadClient extends Thread
     private int client;
     private int step;
     private int idSession;
-    // variables to test
+    private int nBoletos;
+    private String boletos;
     private Socket cltSocket;
-
-    public ThreadClient(int client, int step)
+    
+    Random aleatorio = new Random(System.currentTimeMillis());
+    int intAletorio = aleatorio.nextInt(300);
+    
+    public ThreadClient(int client, int step, int nBoletos)
     {
         this.client = client;
         this.step = step;
+        this.nBoletos = nBoletos;
+        setIdSession(0);
+    }
+    public ThreadClient(int client, int step, int nBoletos, int idSession)
+    {
+        this.client = client;
+        this.step = step;
+        this.nBoletos = nBoletos;
+        this.idSession = idSession; 
     }
 
+    public int getIdSession()
+    {
+        return idSession;
+    }
+    public void setIdSession(int idSession)
+    {
+        this.idSession = idSession;
+    }
     /**
      * Open the communication to client
      * 
@@ -107,7 +128,7 @@ public class ThreadClient extends Thread
     {
         if (step != 0)
         {
-            idSession = 1020; // porque pues necesita uno!
+            //  idSessin = 1020 porque pues necesita uno!
             step(step);
         }
         else
@@ -141,7 +162,7 @@ public class ThreadClient extends Thread
 
             LOG.info("Init conversation ");
             msgOut = newMessage();
-            msgOut.writeUTF("0,null");
+            msgOut.writeUTF("0,"+getIdSession());
             // cltSocket.close();
             LOG.debug("enviado :  0,null");
             return true;
@@ -165,9 +186,9 @@ public class ThreadClient extends Thread
         {
             msgOut = newMessage();
             // �2,1020,Concierto0,Auditorio Nacional,19-03-2019,17,0,null�
-            msgOut.writeUTF("2," + idSession + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
+            msgOut.writeUTF("2," + getIdSession() + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
             // cltSocket.close();
-            LOG.debug("enviado :  2," + idSession + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
+            LOG.debug("enviado :  2," + getIdSession() + ",Concierto0,Auditorio Nacional,19-03-2019,17,0,null");
             return true;
         }
         catch (UnknownHostException e)
@@ -190,9 +211,9 @@ public class ThreadClient extends Thread
 
             msgOut = newMessage();
             // �4,1020,1�
-            msgOut.writeUTF("4," + idSession + ",1");
+            msgOut.writeUTF("4," + getIdSession() + ",1");
             // cltSocket.close();
-            LOG.debug("4," + idSession + ",1");
+            LOG.debug("4," + getIdSession() + ",1");
             return true;
         }
         catch (UnknownHostException e)
@@ -215,8 +236,8 @@ public class ThreadClient extends Thread
 
             msgOut = newMessage();
             // �6,1020,1,21�
-            msgOut.writeUTF("6," + idSession + ",1,21");
-            LOG.debug("6," + idSession + ",1,21");
+            msgOut.writeUTF("6," + getIdSession() + ",1,21");
+            LOG.debug("6," + getIdSession() + ",1,21");
             // cltSocket.close();
             return true;
         }
@@ -237,10 +258,10 @@ public class ThreadClient extends Thread
         try
         {
             msgOut = newMessage();
-            // 8,1020,1,4,23,24,25,26
-            msgOut.writeUTF("8," + idSession + ",1,4,23,24,25,26");
+            // 8,1020,1,4,23,24,25,26 
+            msgOut.writeUTF("8," + getIdSession() + ",1,4"+ getBoletos(nBoletos));
             // cltSocket.close();
-            LOG.debug("8," + idSession + ",1,4,23,24,25,26");
+            LOG.debug("8," + getIdSession() + ",1,4"+ getBoletos(nBoletos));
             return true;
         }
         catch (UnknownHostException e)
@@ -262,9 +283,9 @@ public class ThreadClient extends Thread
         {
             msgOut = newMessage();
             // �10,1020,juanitoPerez,contrapass,juanito@gmail.com,Queretaro�
-            msgOut.writeUTF("10," + idSession + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
+            msgOut.writeUTF("10," + getIdSession() + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
             // cltSocket.close();
-            LOG.debug("10," + idSession + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
+            LOG.debug("10," + getIdSession() + ",juanitoPerez,contrapass,juanito@gmail.com,Queretaro");
             return true;
         }
         catch (UnknownHostException e)
@@ -286,9 +307,9 @@ public class ThreadClient extends Thread
         {
             msgOut = newMessage();
             // �12,1020,juanitoPerez,contrapassword�
-            msgOut.writeUTF("12," + idSession + ",juanitoPerez,contrapassword");
+            msgOut.writeUTF("12," + getIdSession() + ",juanitoPerez,contrapassword");
             // cltSocket.close();
-            LOG.debug("12," + idSession + ",juanitoPerez,contrapassword");
+            LOG.debug("12," + getIdSession() + ",juanitoPerez,contrapassword");
             return true;
         }
         catch (UnknownHostException e)
@@ -312,9 +333,9 @@ public class ThreadClient extends Thread
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! se mando la interfaz con #12 en lugar de 14
             // ahora que houston!?
             // �12,2020,1234-1234-1234-1234,04/22,333, VISA|MASTERCARD�
-            msgOut.writeUTF("14," + idSession + ",1234-1234-1234-1234,04/22,333,VISA");
+            msgOut.writeUTF("14," + getIdSession() + ",1234-1234-1234-1234,04/22,333,VISA");
             // cltSocket.close();
-            LOG.debug("14," + idSession + ",1234-1234-1234-1234,04/22,333,VISA");
+            LOG.debug("14," + getIdSession()+ ",1234-1234-1234-1234,04/22,333,VISA");
             return true;
         }
         catch (UnknownHostException e)
@@ -530,4 +551,19 @@ public class ThreadClient extends Thread
     {
         this.idSession = sessionId;
     }
+
+    public String getBoletos(int cantidad)
+    {
+     String boletos = "";
+        for(int i =0;i<cantidad;i++) { 
+           aleatorio.setSeed(System.currentTimeMillis());
+           if(Integer.parseInt(aleatorio.toString())!=0) {
+              boletos = boletos+","+(aleatorio.toString());
+           }else{
+               i--;
+           }
+        }
+        return boletos;
+    }
+    
 }
