@@ -1,6 +1,4 @@
-package itq.dist;
-
-import java.io.DataInputStream;
+﻿import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,9 +23,6 @@ public class ThreadClient extends Thread
     private int nBoletos;
     private String boletos;
     private Socket cltSocket;
-    
-    Random aleatorio = new Random(System.currentTimeMillis());
-    int intAletorio = aleatorio.nextInt(300);
     
     public ThreadClient(int client, int step, int nBoletos)
     {
@@ -255,13 +250,15 @@ public class ThreadClient extends Thread
 
     private boolean requestReserveTickets()
     {
+        boletos = getBoletos(nBoletos);
+        System.out.println(boletos);
         try
         {
             msgOut = newMessage();
             // 8,1020,1,4,23,24,25,26 
-            msgOut.writeUTF("8," + getIdSession() + ",1,4"+ getBoletos(nBoletos));
+            msgOut.writeUTF("8," + getIdSession() + ",1,4"+ boletos);
             // cltSocket.close();
-            LOG.debug("8," + getIdSession() + ",1,4"+ getBoletos(nBoletos));
+            LOG.debug("8," + getIdSession() + ",1,4"+ boletos);
             return true;
         }
         catch (UnknownHostException e)
@@ -555,10 +552,11 @@ public class ThreadClient extends Thread
     public String getBoletos(int cantidad)
     {
      String boletos = "";
-        for(int i =0;i<cantidad;i++) { 
-           aleatorio.setSeed(System.currentTimeMillis());
-           if(Integer.parseInt(aleatorio.toString())!=0) {
-              boletos = boletos+","+(aleatorio.toString());
+     Random aleatorio = new Random(System.currentTimeMillis());
+        for(int i =0;i<cantidad;i++) {    
+           int n = aleatorio.nextInt(300);
+           if(n!=0) {
+              boletos = boletos+","+(Integer.toString(n));
            }else{
                i--;
            }
